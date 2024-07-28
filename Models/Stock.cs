@@ -4,6 +4,7 @@ namespace StockAPI.Models
 {
     public class Stock
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Symbol { get; set; } = string.Empty;
