@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StockAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,8 @@ namespace StockAPI.Migrations
                 name: "Stocks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Symbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -27,13 +28,15 @@ namespace StockAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stocks", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StockId = table.Column<int>(type: "int", nullable: true),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -48,23 +51,24 @@ namespace StockAPI.Migrations
                         name: "FK_Comments_Stocks_StockId",
                         column: x => x.StockId,
                         principalTable: "Stocks",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_StockId",
                 table: "Comments",
-                column: "StockId");
+                column: "StockId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Comments");
+            migrationBuilder.DropTable(name: "Comments");
 
-            migrationBuilder.DropTable(
-                name: "Stocks");
+            migrationBuilder.DropTable(name: "Stocks");
         }
     }
 }
