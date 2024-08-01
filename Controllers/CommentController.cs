@@ -21,6 +21,9 @@ namespace CommentAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetComments()
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var comments = await _commentRepo.GetCommentsAsync();
 
             var commentsDto = comments.Select(r => r.ToCommentDto());
@@ -36,6 +39,8 @@ namespace CommentAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetComment([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var comment = await _commentRepo.GetCommentAsync(id);
             if (comment == null)
             {
@@ -50,6 +55,8 @@ namespace CommentAPI.Controllers
             [FromBody] CreateCommentRequestDto commentDto
         )
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             if (!await _stockRepo.StockExists(stockId))
             {
                 return BadRequest("Stock does not exist!");
@@ -71,6 +78,8 @@ namespace CommentAPI.Controllers
             [FromBody] UpdateCommentRequestDto updateDto
         )
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var comment = await _commentRepo.UpdateCommentAsync(
                 id,
                 updateDto.ToCommentFromUpdateDto()
@@ -86,6 +95,8 @@ namespace CommentAPI.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteComment([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var comment = await _commentRepo.DeleteCommentAsync(id);
 
             if (comment == null)
