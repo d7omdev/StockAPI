@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StockAPI.Data;
 using StockAPI.Dtos.Stock;
+using StockAPI.Helpers;
 using StockAPI.Interfaces;
 using StockAPI.Mappers;
 
@@ -21,11 +22,12 @@ namespace StockAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetStocks()
+        public async Task<IActionResult> GetStocks([FromQuery] QueryObject query)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var stocks = await _stockRepo.GetStocksAsync();
+
+            var stocks = await _stockRepo.GetStocksAsync(query);
 
             var stocksDto = stocks.Select(s => s.ToStockDto());
 
