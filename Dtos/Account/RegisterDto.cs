@@ -12,5 +12,10 @@ namespace StockAPI.Dtos.Account
 
         [Required]
         public required string Password { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "'ConfirmPassword' and 'Password' do not match.")]
+        public required string ConfirmPassword { get; set; }
     }
 }

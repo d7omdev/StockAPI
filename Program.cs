@@ -7,6 +7,7 @@ using StockAPI.Data;
 using StockAPI.Interfaces;
 using StockAPI.Models;
 using StockAPI.Repository;
+using StockAPI.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,13 +65,14 @@ builder
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SigningKey"])
+                System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SigningKey"]!)
             )
         };
     });
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommantRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
