@@ -84,3 +84,4 @@ ServiceFabricBackup/
 *.rptproj.rsuser
 FakesAssemblies/
 FakeItEasy/
+.env
