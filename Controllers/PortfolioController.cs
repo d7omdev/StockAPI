@@ -58,14 +58,29 @@ namespace StockAPI.Controllers
 
             var portfolio = new Portfolio { StockId = stock.Id, AppUserId = user.Id };
             await _portfolioRepo.CreatePortfolioAsync(portfolio);
-            if (portfolio == null)
+            return portfolio == null ? BadRequest("Failed to add stock to portfolio") : Created();
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> DeletePortfolio(string symbol)
+        {
+            var username = User.GetUsername();
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+                return Unauthorized();
+
+            var userPortfolio = await _portfolioRepo.GetUserPortfolio(user);
+            var filterdStock = userPortfolio.Where(s => s.Symbol == symbol).ToList();
+            if (filterdStock.Count() == 1)
             {
-                return BadRequest("Failed to add stock to portfolio");
+                await _portfolioRepo.DeletePortfolioAsync(user, symbol);
             }
             else
             {
-                return Created();
+                return BadRequest("Stock does not exist in portfolio");
             }
+            return Ok();
         }
     }
 }

@@ -37,5 +37,18 @@ namespace StockAPI.Repository
             await _context.SaveChangesAsync();
             return portfolio;
         }
+
+        public async Task<Portfolio> DeletePortfolioAsync(AppUser appUser, string symbol)
+        {
+            var portfolio = await _context.Portfolios.FirstOrDefaultAsync(p =>
+                p.AppUserId == appUser.Id && p.Stock.Symbol == symbol
+            );
+
+            if (portfolio == null)
+                return null;
+            _context.Portfolios.Remove(portfolio);
+            await _context.SaveChangesAsync();
+            return portfolio;
+        }
     }
 }
