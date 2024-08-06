@@ -30,5 +30,12 @@ namespace StockAPI.Repository
                 })
                 .ToListAsync();
         }
+
+        public async Task<Portfolio> CreatePortfolioAsync(Portfolio portfolio)
+        {
+            await _context.Portfolios.AddAsync(portfolio);
+            await _context.SaveChangesAsync();
+            return portfolio;
+        }
     }
 }

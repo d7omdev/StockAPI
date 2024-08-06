@@ -8,6 +8,7 @@ namespace StockAPI.Interfaces
     {
         Task<List<Stock>> GetStocksAsync(QueryObject query);
         Task<Stock?> GetStockAsync(int id);
+        Task<Stock?> GetStockBySymbolAsync(string symbol);
         Task<Stock> CreateStockAsync(Stock stock);
         Task<Stock?> UpdateStockAsync(int id, UpdateStockRequestDto stock);
         Task<Stock?> DeleteStockAsync(int id);
