@@ -15,7 +15,7 @@ namespace StockAPI.Mappers
                 Title = comment.Title,
                 Content = comment.Content,
                 CreatedAt = comment.CreatedAt,
-                CreatedBy = comment.AppUser?.UserName,
+                CreatedBy = comment.AppUser.UserName,
             };
         }
 

@@ -1,3 +1,4 @@
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using StockAPI.Repository;
 using StockAPI.Service;
 
 var builder = WebApplication.CreateBuilder(args);
+Env.Load();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -64,7 +66,12 @@ builder
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(
+        builder
+            .Configuration.GetConnectionString("DefaultConnection")
+            .Replace("DB_PASSWORD", Environment.GetEnvironmentVariable("DB_PASSWORD"))
+            .Replace("DB_USER", Environment.GetEnvironmentVariable("DB_USER"))
+    );
 });
 
 // Add Identity to the service collection
