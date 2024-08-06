@@ -11,12 +11,14 @@ namespace StockAPI.Models
 
         public Stock? Stock { get; set; }
 
-        public string Author { get; set; } = string.Empty;
-
         public string Title { get; set; } = string.Empty;
 
         public string Content { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public string AppUserId { get; set; } // Navigation property
+
+        public AppUser AppUser { get; set; }
     }
 }

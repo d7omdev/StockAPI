@@ -16,12 +16,14 @@ namespace StockAPI.Repository
 
         public async Task<List<Comment>> GetCommentsAsync()
         {
-            return await _context.Comments.ToListAsync();
+            return await _context.Comments.Include(a => a.AppUser).ToListAsync();
         }
 
         public async Task<Comment?> GetCommentAsync(int id)
         {
-            var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
+            var comment = await _context
+                .Comments.Include(a => a.AppUser)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (comment == null)
             {

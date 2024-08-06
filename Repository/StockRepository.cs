@@ -18,7 +18,10 @@ namespace StockAPI.Repository
 
         public async Task<List<Stock>> GetStocksAsync(QueryObject query)
         {
-            var stocks = _context.Stocks.Include(c => c.Comments).AsQueryable();
+            var stocks = _context
+                .Stocks.Include(c => c.Comments)
+                .ThenInclude(a => a.AppUser)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.Symbol))
             {
@@ -59,7 +62,10 @@ namespace StockAPI.Repository
 
         public Task<Stock?> GetStockAsync(int id)
         {
-            var stock = _context.Stocks.Include(c => c.Comments).FirstOrDefault(s => s.Id == id);
+            var stock = _context
+                .Stocks.Include(c => c.Comments)
+                .ThenInclude(a => a.AppUser)
+                .FirstOrDefault(s => s.Id == id);
 
             return Task.FromResult(stock);
         }

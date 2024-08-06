@@ -31,14 +31,14 @@ namespace StockAPI.Controllers
 
             var stocks = await _stockRepo.GetStocksAsync(query);
 
-            var stocksDto = stocks.Select(s => s.ToStockDto());
+            var stocksDto = stocks.Select(s => s.ToStockDto()).ToList();
 
             if (stocks == null)
             {
                 return NotFound();
             }
 
-            return Ok(stocks);
+            return Ok(stocksDto);
         }
 
         [HttpGet("{id:int}")]

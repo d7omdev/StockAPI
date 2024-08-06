@@ -12,10 +12,10 @@ namespace StockAPI.Mappers
             {
                 Id = comment.Id,
                 StockId = comment.StockId,
-                Author = comment.Author,
                 Title = comment.Title,
                 Content = comment.Content,
-                CreatedAt = comment.CreatedAt
+                CreatedAt = comment.CreatedAt,
+                CreatedBy = comment.AppUser?.UserName,
             };
         }
 
@@ -27,7 +27,6 @@ namespace StockAPI.Mappers
             return new Comment
             {
                 StockId = stockId,
-                Author = commentDto.Author,
                 Title = commentDto.Title,
                 Content = commentDto.Content,
             };
