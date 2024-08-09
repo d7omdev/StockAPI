@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using StockAPI.Data;
+using StockAPI.Helpers;
 using StockAPI.Interfaces;
 using StockAPI.Models;
 
@@ -14,9 +15,20 @@ namespace StockAPI.Repository
             _context = context;
         }
 
-        public async Task<List<Comment>> GetCommentsAsync()
+        public async Task<List<Comment>> GetCommentsAsync(CommentQueryObject queryObj)
         {
-            return await _context.Comments.Include(a => a.AppUser).ToListAsync();
+            var comments = _context.Comments.Include(a => a.AppUser).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(queryObj.Symbol))
+            {
+                comments = comments.Where(c => c.Title.Contains(queryObj.Symbol));
+            }
+            if (queryObj.IsDecsending == true)
+            {
+                comments = comments.OrderByDescending(c => c.CreatedAt);
+            }
+
+            return await comments.ToListAsync();
         }
 
         public async Task<Comment?> GetCommentAsync(int id)

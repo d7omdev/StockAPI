@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StockAPI.Extentions;
+using StockAPI.Helpers;
 using StockAPI.Interfaces;
 using StockAPI.Mappers;
 using StockAPI.Models;
@@ -33,12 +35,13 @@ namespace CommentAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetComments()
+        [Authorize]
+        public async Task<IActionResult> GetComments([FromQuery] CommentQueryObject queryObj)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var comments = await _commentRepo.GetCommentsAsync();
+            var comments = await _commentRepo.GetCommentsAsync(queryObj);
 
             var commentsDto = comments.Select(r => r.ToCommentDto());
 
