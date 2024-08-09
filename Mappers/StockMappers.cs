@@ -1,3 +1,4 @@
+using api.Dtos.Stock;
 using StockAPI.Dtos.Stock;
 using StockAPI.Models;
 
@@ -31,6 +32,19 @@ namespace StockAPI.Mappers
                 Industry = stockDto.Industry,
                 MarketCap = stockDto.MarketCap,
                 Comments = new List<Comment>()
+            };
+        }
+
+        public static Stock ToStockFromFMP(this FMPStock fmpstock)
+        {
+            return new Stock
+            {
+                Symbol = fmpstock.symbol,
+                CompanyName = fmpstock.companyName,
+                Purchase = (decimal)fmpstock.price,
+                LastDiv = (decimal)fmpstock.lastDiv,
+                Industry = fmpstock.industry,
+                MarketCap = fmpstock.mktCap,
             };
         }
     }

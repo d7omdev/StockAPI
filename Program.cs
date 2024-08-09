@@ -74,6 +74,9 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     );
 });
 
+builder.Configuration["FMPKey"] = Environment.GetEnvironmentVariable("FMP_API_KEY");
+Console.WriteLine(builder.Configuration["FMPKey"]);
+
 // Add Identity to the service collection
 builder
     .Services.AddIdentity<AppUser, IdentityRole>(options =>
@@ -116,6 +119,9 @@ builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommantRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+builder.Services.AddScoped<IFMPService, FMPService>();
+
+builder.Services.AddHttpClient<IFMPService, FMPService>();
 
 var app = builder.Build();
 
